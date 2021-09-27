@@ -32,11 +32,11 @@ jobs:
           tar -xzf build.tar.gz -C ../build ; rm -f build.tar.gz
         
       # Clonando o projeto build-pack da Mendix para gera o Build
-      - name: Movendo o projeto zipado para a pasta build
+      - name: Clonando o projeto build-pack da Mendix para gera o Build
         run: git clone https://github.com/mendix/docker-mendix-buildpack.git
         
-      # Configurando as pasta para geração do Build
-      - name: Configurando as pasta para geração do Build
+      # Configurando build-pack para geração do Build
+      - name: Configurando build-pack para geração do Build
         run: mkdir deploy ; mv build docker-mendix-buildpack ; mv docker-mendix-buildpack deploy ; cd deploy ; cd docker-mendix-buildpack
   
       # Gerando a Variaveis de ambiente para o Build
@@ -57,16 +57,19 @@ jobs:
           --build-arg ROOTFS_IMAGE=${{ env.ROOTFS_VERSION }} \
           -t mendix/mendix-buildpack-ci .
           
-                # Gerando o Build da Aplicação
-      - name: Gerando o Build da Aplicação
+      # Subindo build gerado
+      - name: Subindo build gerado
         run: |
-         docker run -it \
+         docker run -d -p 8080:8080 \
           -e ADMIN_PASSWORD=Password1! \
           -e DATABASE_ENDPOINT=jdbc:hsqldb:file:~/data/database/mendix \
           -e MXRUNTIME_DatabaseType=HSQLDB \
           -e MXRUNTIME_DatabaseJdbcUrl=jdbc:hsqldb:file:~/data/database/mendix \
           mendix/mendix-buildpack-ci
       
-      # docker ps
-      - name: docker ps
-        run: docker ps
+      # Validando a aplicação dentro do docker
+      - name: Validando a aplicação dentro do docker
+        run: | 
+          ID_DOCKER=$(docker ps -q)
+          docker -it $ID_DOCKER /bin/sh 
+          curl http://localhost:8080
