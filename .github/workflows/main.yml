@@ -42,11 +42,16 @@ jobs:
         run: mkdir deploy ; mv build docker-mendix-buildpack ; mv docker-mendix-buildpack deploy ; cd deploy ; cd docker-mendix-buildpack
   
       # Gerando a Variaveis de ambiente para o Build
-      - name: Configurando as pasta para geração do Build
+      - name: Gerando a Variaveis de ambiente para o Build
         run: |
           cd deploy/docker-mendix-buildpack
+          pwd
           CF_BUILDPACK_VERSION=$(cat cf-buildpack.version) 
           ROOTFS_VERSION=$(cat rootfs.version)
+          cat cf-buildpack.version
+          cat rootfs.version
+          echo $CF_BUILDPACK_VERSION
+          echo $ROOTFS_VERSION
           
       # Gerando o Build da Aplicação
       - name: Gerando o Build da Aplicação
