@@ -25,29 +25,29 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Configurando Projeto para pasta build
-      - name: Configurando Projeto para pasta build
+      # Configurando Projeto para o Build
+      - name: Configurando Projeto para o Build
         run: |
           mkdir build ; cd build ; tar --exclude='../build' -zcf build.tar.gz ..
           tar -xzf build.tar.gz -C ../build ; rm -f build.tar.gz
         
-      # Clonando o projeto build-pack da Mendix para gera o Build
-      - name: Clonando o projeto build-pack da Mendix para gera o Build
+      # Clonando o projeto build-pack da Mendix
+      - name: Clonando o projeto build-pack da Mendix
         run: git clone https://github.com/mendix/docker-mendix-buildpack.git
         
-      # Configurando build-pack para geração do Build
-      - name: Configurando build-pack para geração do Build
+      # Configurando build-pack 
+      - name: Configurando build-pack
         run: mkdir deploy ; mv build docker-mendix-buildpack ; mv docker-mendix-buildpack deploy ; cd deploy ; cd docker-mendix-buildpack
   
-      # Gerando a Variaveis de ambiente para o Build
+      # Gerando a Variaveis de ambiente
       - name: Gerando a Variaveis de ambiente para o Build
         run: |
           cd deploy/docker-mendix-buildpack
           echo "CF_BUILDPACK_VERSION="$(cat cf-buildpack.version)  >> $GITHUB_ENV
           echo "ROOTFS_VERSION="$(cat rootfs.version)  >> $GITHUB_ENV          
           
-      # Gerando o Build da Aplicação
-      - name: Gerando o Build da Aplicação
+      # Bildando a Imagem
+      - name: Bildando a Imagem
         run: |
           cd deploy/docker-mendix-buildpack 
           cd build ; ls -lha ; cd ..
@@ -57,8 +57,8 @@ jobs:
           --build-arg ROOTFS_IMAGE=${{ env.ROOTFS_VERSION }} \
           -t mendix/mendix-buildpack-ci .
           
-      # Subindo build gerado
-      - name: Subindo build gerado
+      # Subindo a Aplicação
+      - name: Subindo a Aplicação
         run: |
          docker run -d -p 8080:8080 \
           -e ADMIN_PASSWORD=Password1! \
@@ -67,9 +67,10 @@ jobs:
           -e MXRUNTIME_DatabaseJdbcUrl=jdbc:hsqldb:file:~/data/database/mendix \
           mendix/mendix-buildpack-ci
       
-      # Validando a aplicação dentro do docker
-      - name: Validando a aplicação dentro do docker
+      # Validando a aplicação
+      - name: Validando a aplicação
         run: | 
           ID_DOCKER=$(docker ps -q)
-          docker -it $ID_DOCKER /bin/sh 
+          echo $ID_DOCKER
+          docker exec -it $ID_DOCKER /bin/sh 
           curl http://localhost:8080
