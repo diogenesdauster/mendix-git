@@ -45,13 +45,8 @@ jobs:
       - name: Gerando a Variaveis de ambiente para o Build
         run: |
           cd deploy/docker-mendix-buildpack
-          pwd
-          CF_BUILDPACK_VERSION=$(cat cf-buildpack.version) 
-          ROOTFS_VERSION=$(cat rootfs.version)
-          cat cf-buildpack.version
-          cat rootfs.version
-          echo $CF_BUILDPACK_VERSION
-          echo $ROOTFS_VERSION
+          echo "CF_BUILDPACK_VERSION="$(cat cf-buildpack.version)  >> $GITHUB_ENV
+          echo "ROOTFS_VERSION="$(cat rootfs.version)  >> $GITHUB_ENV          
           
       # Gerando o Build da Aplicação
       - name: Gerando o Build da Aplicação
@@ -59,8 +54,8 @@ jobs:
           cd deploy/docker-mendix-buildpack 
           docker build \
           --build-arg BUILD_PATH=build \
-          --build-arg CF_BUILDPACK=$CF_BUILDPACK_VERSION \
-          --build-arg ROOTFS_IMAGE=$ROOTFS_VERSION \
+          --build-arg CF_BUILDPACK=${{ env.CF_BUILDPACK_VERSION }} \
+          --build-arg ROOTFS_IMAGE=${{ env.ROOTFS_VERSION }} \
           -t mendix/mendix-buildpack-ci .
           
                 # Gerando o Build da Aplicação
