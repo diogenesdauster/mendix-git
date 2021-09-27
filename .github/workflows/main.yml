@@ -26,11 +26,10 @@ jobs:
       - uses: actions/checkout@v2
 
       # Configurando Projeto para pasta build
-      - name: Zipando o projeto para build
+      - name: Configurando Projeto para pasta build
         run: |
           mkdir build ; cd build ; tar --exclude='../build' -zcf build.tar.gz ..
           tar -xzf build.tar.gz -C ../build ; rm -f build.tar.gz
-          ls -lha
         
       # Clonando o projeto build-pack da Mendix para gera o Build
       - name: Movendo o projeto zipado para a pasta build
@@ -61,14 +60,13 @@ jobs:
                 # Gerando o Build da Aplicação
       - name: Gerando o Build da Aplicação
         run: |
-          cd deploy/docker-mendix-buildpack 
-          echo ID_DOCKER=$(docker run -it \
+         docker run -it \
           -e ADMIN_PASSWORD=Password1! \
           -e DATABASE_ENDPOINT=jdbc:hsqldb:file:~/data/database/mendix \
           -e MXRUNTIME_DatabaseType=HSQLDB \
           -e MXRUNTIME_DatabaseJdbcUrl=jdbc:hsqldb:file:~/data/database/mendix \
-          mendix/mendix-buildpack-ci) >> $GITHUB_ENV
+          mendix/mendix-buildpack-ci
       
-      # ID do Container
-      - name: ID do Container
-        run: echo ${{ env.ID_DOCKER }}
+      # docker ps
+      - name: docker ps
+        run: docker ps
