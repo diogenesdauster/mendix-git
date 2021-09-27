@@ -25,13 +25,13 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Zipando o projeto para build
+      # Configurando Projeto para pasta build
       - name: Zipando o projeto para build
-        run: mkdir build ; cd build ;tar --exclude='../build' -zcvf build.tar.gz ..
-        
-      # Extraindo o projeto na pasta para o build
-      - name: Extraindo o projeto na pasta para o build
-        run: cd build ; tar -zxvf build.tar.gz . ; rm -f build.tar.gz
+        run: |
+          mkdir build ; cd build ;tar --exclude='../build' -zcvf build.tar.gz ..
+          ls -lha 
+          tar -zxvf build.tar.gz . ; rm -f build.tar.gz
+          ls -lha
         
       # Clonando o projeto build-pack da Mendix para gera o Build
       - name: Movendo o projeto zipado para a pasta build
