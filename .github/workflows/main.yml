@@ -31,7 +31,7 @@ jobs:
         
       # Extraindo o projeto na pasta para o build
       - name: Extraindo o projeto na pasta para o build
-        run: tar -zxf build.tar.gz . ; rm -f build.tar.gz
+        run: pwd ; ls -lha ;tar -zxf build.tar.gz . ; rm -f build.tar.gz
         
       # Clonando o projeto build-pack da Mendix para gera o Build
       - name: Movendo o projeto zipado para a pasta build
