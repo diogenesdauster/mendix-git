@@ -52,6 +52,7 @@ jobs:
       - name: Gerando o Build da Aplicação
         run: |
           cd deploy/docker-mendix-buildpack 
+          cd build ; ls -lha ; cd ..
           docker build \
           --build-arg BUILD_PATH=build \
           --build-arg CF_BUILDPACK=${{ env.CF_BUILDPACK_VERSION }} \
@@ -62,13 +63,13 @@ jobs:
       - name: Gerando o Build da Aplicação
         run: |
           cd deploy/docker-mendix-buildpack 
-          ID_DOCKER=$(docker run -it \
+          echo ID_DOCKER=$(docker run -it \
           -e ADMIN_PASSWORD=Password1! \
           -e DATABASE_ENDPOINT=jdbc:hsqldb:file:~/data/database/mendix \
           -e MXRUNTIME_DatabaseType=HSQLDB \
           -e MXRUNTIME_DatabaseJdbcUrl=jdbc:hsqldb:file:~/data/database/mendix \
-          mendix/mendix-buildpack-ci)
+          mendix/mendix-buildpack-ci) >> $GITHUB_ENV
       
       # ID do Container
       - name: ID do Container
-        run: echo $ID_DOCKER
+        run: echo ${{ env.ID_DOCKER }}
