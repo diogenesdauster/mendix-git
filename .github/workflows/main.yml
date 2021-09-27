@@ -27,11 +27,11 @@ jobs:
 
       # Zipando o projeto para build
       - name: Zipando o projeto para build
-        run: mkdir build ; cd build ;tar --exclude='../build' -zcf build.tar.gz ..
+        run: mkdir build ; cd build ;tar --exclude='../build' -zcvf build.tar.gz ..
         
       # Extraindo o projeto na pasta para o build
       - name: Extraindo o projeto na pasta para o build
-        run: cd build ; tar -zxf build.tar.gz . ; rm -f build.tar.gz
+        run: cd build ; tar -zxvf build.tar.gz . ; rm -f build.tar.gz
         
       # Clonando o projeto build-pack da Mendix para gera o Build
       - name: Movendo o projeto zipado para a pasta build
