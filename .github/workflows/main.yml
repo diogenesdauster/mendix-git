@@ -28,9 +28,8 @@ jobs:
       # Configurando Projeto para pasta build
       - name: Zipando o projeto para build
         run: |
-          mkdir build ; tar --exclude='./build' -zcf build.tar.gz .
-          tar -xzf build.tar.gz -C build/ ; rm -f build.tar.gz
-          cd build
+          mkdir build ; cd build ; tar --exclude='../build' -zcf build.tar.gz ..
+          tar -xzf build.tar.gz -C ../build ; rm -f build.tar.gz
           ls -lha
         
       # Clonando o projeto build-pack da Mendix para gera o Build
