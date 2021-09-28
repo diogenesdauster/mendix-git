@@ -1,0 +1,12 @@
+version: "3"
+   
+services:
+  mendixapp:
+    image: mendix/mendix-buildpack-ci
+    environment:
+      - ADMIN_PASSWORD=Password1!
+      - DATABASE_ENDPOINT=jdbc:hsqldb:file:~/data/database/mendix
+      - MXRUNTIME_DatabaseType=HSQLDB
+      - MXRUNTIME_DatabaseJdbcUrl=jdbc:hsqldb:file:~/data/database/mendix
+    ports:
+      - "8000:8000"
