@@ -70,7 +70,4 @@ jobs:
       # Validando a aplicação
       - name: Validando a aplicação
         run: | 
-          ID_DOCKER=$(docker ps -q)
-          echo $ID_DOCKER
-          docker exec -it $ID_DOCKER /bin/sh 
-          curl http://localhost:8080
+          curl -s http://localhost:8080 | grep "<title>Mendix</title>"
