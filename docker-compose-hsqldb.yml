@@ -9,4 +9,4 @@ services:
       - MXRUNTIME_DatabaseType=HSQLDB
       - MXRUNTIME_DatabaseJdbcUrl=jdbc:hsqldb:file:~/data/database/mendix
     ports:
-      - "8000:8000"
+      - "8080:8080"
