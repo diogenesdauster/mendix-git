@@ -65,10 +65,9 @@ jobs:
           -e MXRUNTIME_DatabaseType=HSQLDB \
           -e MXRUNTIME_DatabaseJdbcUrl=jdbc:hsqldb:file:~/data/database/mendix \
           mendix/mendix-buildpack-ci
-          docker ps
-          sleep 1m
           ID_DOCKER=$(docker ps -q)
-          docker exec $ID_DOCKER sh -c 'curl http://localhost:8080'          
+          echo $ID_DOCKER
+          docker exec $ID_DOCKER sh -c 'curl localhost:8080'          
       
       # Validando a aplicação
       - name: Validando a aplicação
