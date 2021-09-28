@@ -56,20 +56,7 @@ jobs:
           --build-arg ROOTFS_IMAGE=${{ env.ROOTFS_VERSION }} \
           -t mendix/mendix-buildpack-ci .
           
-      # Subindo a Aplicação
-      - name: Subindo a Aplicação
+      # Subindo e Validando a Aplicação
+      - name: Subindo e Validando a Aplicação
         run: |
-         docker run -d -p 8080:8080 \
-          -e ADMIN_PASSWORD=Password1! \
-          -e DATABASE_ENDPOINT=jdbc:hsqldb:file:~/data/database/mendix \
-          -e MXRUNTIME_DatabaseType=HSQLDB \
-          -e MXRUNTIME_DatabaseJdbcUrl=jdbc:hsqldb:file:~/data/database/mendix \
-          mendix/mendix-buildpack-ci
-          sleep 30s
-          ID_DOCKER=$(docker ps -q)
-          docker exec $ID_DOCKER sh -c 'curl localhost:8080'          
-      
-      # Validando a aplicação
-      - name: Validando a aplicação
-        run: | 
-          docker ps
+         test-app.sh docker-compose-hsqldb.yml
