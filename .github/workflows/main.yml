@@ -50,7 +50,6 @@ jobs:
       - name: Bildando a Imagem
         run: |
           cd deploy/docker-mendix-buildpack 
-          cd build ; ls -lha ; cd ..
           docker build \
           --build-arg BUILD_PATH=build \
           --build-arg CF_BUILDPACK=${{ env.CF_BUILDPACK_VERSION }} \
@@ -66,10 +65,10 @@ jobs:
           -e MXRUNTIME_DatabaseType=HSQLDB \
           -e MXRUNTIME_DatabaseJdbcUrl=jdbc:hsqldb:file:~/data/database/mendix \
           mendix/mendix-buildpack-ci
+          docker ps
       
       # Validando a aplicação
       - name: Validando a aplicação
         run: | 
-          timeout 180s bash -c 'until curl -s http://localhost:8080 | grep "<title>Mendix</title>"; do sleep 5; done'
-          curl -s http://localhost:8080 | grep "<title>Mendix</title>"
-          RETURN_CODE=$?
+          ID_DOCKER=$(docker ps -q)
+          docker exec $ID_DOCKER sh -c 'curl localhost:8080'
