@@ -59,4 +59,4 @@ jobs:
       # Subindo e Validando a Aplicação
       - name: Subindo e Validando a Aplicação
         run: |
-         test-app.sh docker-compose-hsqldb.yml
+         sh test-app.sh docker-compose-hsqldb.yml
