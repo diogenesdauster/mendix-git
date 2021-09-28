@@ -70,4 +70,6 @@ jobs:
       # Validando a aplicação
       - name: Validando a aplicação
         run: | 
-          curl -s http://localhost:8080 
+          timeout 180s bash -c 'until curl -s http://localhost:8080 | grep "<title>Mendix</title>"; do sleep 5; done'
+          curl -s http://localhost:8080 | grep "<title>Mendix</title>"
+          RETURN_CODE=$?
