@@ -40,7 +40,7 @@ jobs:
         run: mkdir deploy ; mv build docker-mendix-buildpack ; mv docker-mendix-buildpack deploy ; cd deploy ; cd docker-mendix-buildpack
   
       # Gerando a Variaveis de ambiente
-      - name: Gerando a Variaveis de ambiente para o Build
+      - name: Gerando a Variaveis de ambiente
         run: |
           cd deploy/docker-mendix-buildpack
           echo "CF_BUILDPACK_VERSION="$(cat cf-buildpack.version)  >> $GITHUB_ENV
