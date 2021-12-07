@@ -27,7 +27,16 @@ jobs:
         python-version: "3.10"
 
     - name: Baixando Script Python
-      run: curl https://raw.githubusercontent.com/MXClyde/MendixModelTools/master/Scripts/mxbuild.py -o mxbuild.py
+      run: | 
+        curl https://raw.githubusercontent.com/MXClyde/MendixModelTools/master/Scripts/mxbuild.py -o mxbuild.py ;
+        ls | grep -i mxbuild
+
+    - name: Gerando a Variaveis de ambiente
+      run: echo "MXV="$(cat mx-version)  >> $GITHUB_ENV ; echo "MXNAME="$(cat mx-appname)  >> $GITHUB_ENV      
       
-    - name: Echo Java Path
-      run: echo $JAVA_HOME
+    - name: Gerando Package .Mda
+      run: python3 mxbuild.py -t "${{ secrets.TEAMSERVER }}" -u "${{ secrets.USER }}" -p "${{ secrets.PASS }}" -java $JAVA_HOME -r ${{ env.MXV }} -d true -o project_${{ env.MXNAME }}_${{ env.MXV }}.mda
+    
+    - name: Verificando .Mda
+      run: ls 
+      
