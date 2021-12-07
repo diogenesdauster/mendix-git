@@ -6,7 +6,7 @@ on:
       - completed
     workflows:
       # List all required workflow names here.
-      - 'build'
+      - 'CI'
       
 jobs:
   automerge:
