@@ -32,10 +32,10 @@ jobs:
         ls | grep -i mxbuild
 
     - name: Gerando a Variaveis de ambiente
-      run: echo "MXV="$(cat mx-version)  >> $GITHUB_ENV ; echo "MXNAME="$(cat mx-appname)  >> $GITHUB_ENV      
+      run: echo "MXV="$(cat mx-version)  >> $GITHUB_ENV ; echo "MXNAME="$(cat mx-appname)  >> $GITHUB_ENV ; echo "MXR="$(cat mx-revision)  >> $GITHUB_ENV           
       
     - name: Gerando Package .Mda
-      run: python3 mxbuild.py -t "${{ secrets.TEAMSERVER }}" -u "${{ secrets.USER }}" -p "${{ secrets.PASS }}" -java $JAVA_HOME -v ${{ env.MXV }} -d true -o project_${{ env.MXNAME }}_${{ env.MXV }}.mda
+      run: python3 mxbuild.py -t "${{ secrets.TEAMSERVER }}" -u "${{ secrets.USER }}" -p "${{ secrets.PASS }}" -java $JAVA_HOME -r ${{ env.MXR }} -v ${{ env.MXV }} -d true -o project_${{ env.MXNAME }}_${{ env.MXV }}.mda
     
     - name: Verificando .Mda
       run: ls 
