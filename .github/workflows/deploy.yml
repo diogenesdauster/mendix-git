@@ -26,14 +26,19 @@ jobs:
       with:
         python-version: "3.10"
 
+    - name: Set Up Mono
+      run: sudo apt install gnupg ca-certificates ; 
+       sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF ;
+       echo "deb https://download.mono-project.com/repo/ubuntu stable-focal main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list ;
+       sudo apt update ; sudo apt install mono-devel
+    
     - name: Baixando Script Python
       run: | 
         curl https://raw.githubusercontent.com/MXClyde/MendixModelTools/master/Scripts/mxbuild.py -o mxbuild.py ;
-        ls | grep -i mxbuild
+        sed -i 's|{}/modeler|mono {}/modeler|g' mxbuild.py 
 
     - name: Gerando a Variaveis de ambiente
       run: echo "MXV="$(cat mx-version)  >> $GITHUB_ENV ; echo "MXNAME="$(cat mx-appname)  >> $GITHUB_ENV ; echo "MXR="$(cat mx-revision)  >> $GITHUB_ENV           
-
 
     - name: Criando as pasta necessárias para a geração do package
       run: mkdir exports ; mkdir mxLib ; mkdir builds 
@@ -44,3 +49,4 @@ jobs:
     - name: Verificando .Mda
       run: cd builds ; ls  
       
+
