@@ -18,13 +18,11 @@ jobs:
   build:
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
-
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it 
       - uses: actions/checkout@v2
-
-      # Configurando Projeto para o Build
+       # Configurando Projeto para o Build
       - name: Configurando Projeto para o Build
         run: |
           mkdir build ; cd build ; tar --exclude='../build' -zcf build.tar.gz ..
@@ -59,3 +57,9 @@ jobs:
       - name: Subindo e Validando a Aplicação
         run: |
          sh test-app.sh docker-compose-hsqldb.yml
+  labeler:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/labeler@v3
+      with:
+        repo-token: "${{ secrets.TOKEN }}"
