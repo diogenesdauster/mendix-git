@@ -5,9 +5,11 @@ name: CD
 
 on:
   workflow_run:
-    branches: main
-    workflows: CI
-    types: completed
+    types:
+      - completed
+    workflows:
+      # List all required workflow names here.
+      - 'automerge'
 
 jobs:
   build:
